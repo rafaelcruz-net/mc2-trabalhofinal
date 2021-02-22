@@ -1,31 +1,32 @@
 library(tidyverse)
-
 rm(list = ls())
-data <- read.table("Mestrado/TrabalhoMC2/data/data_t1.txt", header = TRUE);
 
-unique_configurations <- unique(as.character(data$config));
-unique_instances <- unique(data$inst);
+# SETANDO A HOME COMO WORK DIR
+setwd("~/Mestrado/TrabalhoMC2");
+data <- read.table("data/data_t1.txt", header = TRUE);
 
-mean_gd <- matrix(nrow=length(unique_instances), ncol=length(unique_configurations), dimnames=list(unique_instances, unique_configurations));
+configs <- unique(as.character(data$config));
+instances <- unique(data$inst);
+mean <- matrix(nrow=length(instances), ncol=length(configs), dimnames=list(instances, configs));
 
-for (config_ in unique_configurations )
+for (config_ in configs)
 {
-  for (instances_ in unique_instances)
+  for (instances_ in instances)
   {
-    newdata <- subset(data, inst == instances_ & config == config_);
-    mean_gd [instances_, config_] <- mean(newdata$gd);
+    mean [instances_, config_] <- mean(subset(data, inst == instances_ & config == config_)$gd);
   }
 }  
 
-#TODO CRIAR TABELA  
-names <- names(mean_gd[1,]);
+col <- factor(c("bestconfig"));
+best_config <- matrix(nrow=length(instances), ncol=length(col), dimnames=list(instances, col));
+names <- names(mean[1,]);
 
-for (instance_ in unique_instances)
+for (instance_ in instances)
 {
-  instanceIndex <- match(instance_, unique_instances);
-  instanceGD <- mean_gd[instanceIndex,];
+  instanceIndex <- match(instance_, instances);
+  instanceGD <- mean[instanceIndex,];
   best <- match(min(instanceGD), instanceGD);
-  print(paste("The best configuration for instance", instance_, "is", names[best], sep=" "));
+  best_config[instance_, ] <- (names[best]);
 }
 
 
