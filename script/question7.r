@@ -45,87 +45,83 @@ PARM <- rbind(mar_PARM,cpm_PARM,nensga_PARM,nsga_PARM,sh_PARM)
 
 attach(ACAD)
 
-# SALVA O GRAFICO 1
-png("data/result/graf1_acad.png", width = 1024, height = 768, res = 92);
+#png("data/result/graf1_acad.png", width = 1024, height = 768, res = 92);
 graf1_acad <- ggplot(ACAD, aes(mks, cst))+
   geom_point(aes(color = Arquivo, shape = Arquivo))+
-#  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-#              method = "lm", alpha = 0.2)+
+  xlab("Markespan") +
+  ylab("Custo")  +
   scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
+  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange"))
 
 graf1_acad + theme_dark()
 print(graf1_acad);  
-dev.off();
+#dev.off();
 
-# SALVA O GRAFICO 2
-png("data/result/graf2_acad.png", width = 1024, height = 768, res = 92);
 
-graf2_acad <- ggplot(ACAD, aes(noh, mks))+
+#png("data/result/graf2_acad.png", width = 1024, height = 768, res = 92);
+graf2_acad <- ggplot(ACAD, aes(noh * 8, mks))+
   geom_point(aes(color = Arquivo, shape = Arquivo))+
-  #  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-  #              method = "lm", alpha = 0.2)+
+  xlab("Overtime (Hour)") +
+  ylab("Markespan") +
   scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
   scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
 
 graf2_acad + theme_dark()
 print(graf2_acad);
-dev.off();
+#dev.off();
 
 
 
-png("data/result/graf3_acad.png", width = 1024, height = 768, res = 92);
+#png("data/result/graf3_acad.png", width = 1024, height = 768, res = 92);
 graf3_acad <- ggplot(ACAD, aes(noh, cst))+
   geom_point(aes(color = Arquivo, shape = Arquivo))+
-  #  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-  #              method = "lm", alpha = 0.2)+
+  xlab("Overtime") +
+  ylab("Custo") +
   scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
   scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
 
 graf3_acad + theme_dark()
-
 print(graf3_acad);  
-dev.off();
+#dev.off();
 
 attach(PARM)
 
-png("data/result/graf1_param.png", width = 1024, height = 768, res = 92);  
+#png("data/result/graf1_param.png", width = 1024, height = 768, res = 92);  
 graf1_parm <- ggplot(PARM, aes(mks, cst))+
+    xlab("Markespan") +
+    ylab("Custo") +
     geom_point(aes(color = Arquivo, shape = Arquivo))+
-    #  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-    #              method = "lm", alpha = 0.2)+
     scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
     scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
   
 graf1_parm + theme_dark()  
 print(graf1_parm);
-dev.off();
+#dev.off();
   
 
-png("data/result/graf2_param.png", width = 1024, height = 768, res = 92);  
-graf2_parm <- ggplot(PARM, aes(noh, mks))+
+#png("data/result/graf2_param.png", width = 1024, height = 768, res = 92);  
+graf2_parm <- ggplot(PARM, aes(noh * 8, mks))+
+  xlab("Overtime (hour)") +
+  ylab("Markespan") +
   geom_point(aes(color = Arquivo, shape = Arquivo))+
-  #  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-  #              method = "lm", alpha = 0.2)+
   scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
   scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
 
 graf2_parm + theme_dark() 
 print(graf2_parm);
-dev.off();
+#dev.off();
 
-png("data/result/graf3_param.png", width = 1024, height = 768, res = 92);  
+#png("data/result/graf3_param.png", width = 1024, height = 768, res = 92);  
 graf3_parm <- ggplot(PARM, aes(noh, cst))+
   geom_point(aes(color = Arquivo, shape = Arquivo))+
-  #  stat_smooth(aes(color = Arquivo, fill = Arquivo), 
-  #              method = "lm", alpha = 0.2)+
+  xlab("Overtime") +
+  ylab("Custo") +
   scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
   scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
 
 graf3_parm + theme_dark()  
-
 print(graf3_parm);
-dev.off();
+#dev.off();
 
 
  

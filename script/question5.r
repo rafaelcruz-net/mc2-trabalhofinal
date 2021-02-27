@@ -7,7 +7,7 @@ setwd("~/Trabalho MCII");
 # CARREGANDO BASE DE DADOS
 data <- read.table("~/Trabalho Final - Dados/data_t5-t6.txt", header = TRUE);
 
-# AGRUPANDO POR CONFIGURAÃ‡Ã•ES
+# AGRUPANDO POR CONFIGURAÇÕES
 configs <- unique(as.character(data$config));
 
 # AGRUPANDO POR INSTANCIAS

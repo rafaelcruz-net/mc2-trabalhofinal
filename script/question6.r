@@ -9,10 +9,10 @@ data <- read.table("~/Trabalho Final - Dados/data_t5-t6.txt", header = TRUE);
 
 # VARGHA-DELANEY
  vargha.delaney <- function(r1, r2) {
-+     m <- length(r1);
-+     n <- length(r2);
-+     return ((sum(rank(c(r1, r2))[seq_along(r1)]) / m - (m + 1) / 2) / n);
-+ }
+     m <- length(r1);
+     n <- length(r2);
+     return ((sum(rank(c(r1, r2))[seq_along(r1)]) / m - (m + 1) / 2) / n);
+}
  
 # CRIACAO DA 'TABELA'
 compareColumns <- c("NSGA/NSGAne");
