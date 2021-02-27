@@ -42,7 +42,6 @@ for (config_ in configurations)
 
 
 #PARA CADA INSTANCIA DETERMINA SE ESTA DIFERENÇA ESTATISTICA
-
 for (instance_ in instances)
 {
   instanceData_ <- subset(data, inst == instance_);
