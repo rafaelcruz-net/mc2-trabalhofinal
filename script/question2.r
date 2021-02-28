@@ -46,9 +46,13 @@ print("-------------------------------------------------------------------------
 for (instance in instances)
 {
   instancesubset <- subset(data, inst == instance);
-  pv <- kruskal.test(gd~config, data=instancesubset);
+  gd <- kruskal.test(gd~config, data=instancesubset);
+  hv <- kruskal.test(hv~config, data=instancesubset);
+  spr <- kruskal.test(spr~config, data=instancesubset);
   print(paste("instance=", instance));
-  print(pv);
+  print(gd);
+  print(hv);
+  print(spr);
 }
 
 print("------------------------------------------------------------------------------------------------");
