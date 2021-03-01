@@ -1,5 +1,6 @@
 rm(list = ls());
 library("ggplot2");
+library("gridExtra");
 setwd("~/Mestrado/TrabalhoMC2");
 
 mar_file <- read.table("data/data_t7_Margarine_error1_frontier_obj.txt",header=TRUE);
@@ -33,95 +34,107 @@ sh_ACAD$Arquivo<-'SH_ACAD'
 sh_PARM <- subset(sh_file, inst == 'PARM');
 sh_PARM$Arquivo<-'SH_PARM'
 
-# por exemplo mks x noh
-# Criar uma matriz (vazia?)
-# preencher o X da matriz com o mks de cada uma
-# preencher o Y da matriz com o noh de cada uma
-# simplesmente plotar
-
 ACAD <- rbind(mar_ACAD,cpm_ACAD,nensga_ACAD,nsga_ACAD,sh_ACAD)
 PARM <- rbind(mar_PARM,cpm_PARM,nensga_PARM,nsga_PARM,sh_PARM)
 
+attach(ACAD);
+attach(PARM);
 
-attach(ACAD)
+graf1_acad <- ggplot(ACAD, aes(x=mks, y=cst/1000))+
+  geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  xlab("Markespan(days)") +
+  ylab("Cost(1000$)")  +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(85,90,95, 100)) +
+  scale_x_continuous(breaks = seq(120,170, by = 10)) +
+  ggtitle("ACAD");
 
-#png("data/result/graf1_acad.png", width = 1024, height = 768, res = 92);
-graf1_acad <- ggplot(ACAD, aes(mks, cst))+
-  geom_point(aes(color = Arquivo, shape = Arquivo))+
-  xlab("Markespan") +
-  ylab("Custo")  +
-  scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange"))
+graf2_acad <- ggplot(ACAD, aes(x = noh * 8, y = mks))+
+  geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  xlab("Overtime(hours)") +
+  ylab("Markespan(days)") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(120,140,160)) +
+  scale_x_continuous(breaks = seq(0,400, by = 100)) +
+  ggtitle("ACAD");
 
-graf1_acad + theme_dark()
-print(graf1_acad);  
-#dev.off();
+graf3_acad <- ggplot(ACAD, aes(x = noh * 8, y = cst / 1000))+
+  geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  xlab("Overtime(hours)") +
+  ylab("Cost(1000$)") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(85,90,95, 100)) +
+  scale_x_continuous(breaks = seq(0,400, by = 100)) +
+  ggtitle("ACAD");
 
+graf1_parm <- ggplot(PARM, aes(x = mks, y = cst / 1000))+
+    xlab("Markespan(days)") +
+    ylab("Cost(1000$)") +
+    geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(210,230,250)) +
+  scale_x_continuous(breaks = seq(300,420, by = 20)) +
+  ggtitle("PARM");
 
-#png("data/result/graf2_acad.png", width = 1024, height = 768, res = 92);
-graf2_acad <- ggplot(ACAD, aes(noh * 8, mks))+
-  geom_point(aes(color = Arquivo, shape = Arquivo))+
-  xlab("Overtime (Hour)") +
-  ylab("Markespan") +
-  scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
-
-graf2_acad + theme_dark()
-print(graf2_acad);
-#dev.off();
-
-
-
-#png("data/result/graf3_acad.png", width = 1024, height = 768, res = 92);
-graf3_acad <- ggplot(ACAD, aes(noh, cst))+
-  geom_point(aes(color = Arquivo, shape = Arquivo))+
-  xlab("Overtime") +
-  ylab("Custo") +
-  scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
-
-graf3_acad + theme_dark()
-print(graf3_acad);  
-#dev.off();
-
-attach(PARM)
-
-#png("data/result/graf1_param.png", width = 1024, height = 768, res = 92);  
-graf1_parm <- ggplot(PARM, aes(mks, cst))+
-    xlab("Markespan") +
-    ylab("Custo") +
-    geom_point(aes(color = Arquivo, shape = Arquivo))+
-    scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-    scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
-  
-graf1_parm + theme_dark()  
-print(graf1_parm);
-#dev.off();
-  
-
-#png("data/result/graf2_param.png", width = 1024, height = 768, res = 92);  
-graf2_parm <- ggplot(PARM, aes(noh * 8, mks))+
-  xlab("Overtime (hour)") +
-  ylab("Markespan") +
-  geom_point(aes(color = Arquivo, shape = Arquivo))+
-  scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
-
-graf2_parm + theme_dark() 
-print(graf2_parm);
-#dev.off();
-
-#png("data/result/graf3_param.png", width = 1024, height = 768, res = 92);  
-graf3_parm <- ggplot(PARM, aes(noh, cst))+
-  geom_point(aes(color = Arquivo, shape = Arquivo))+
-  xlab("Overtime") +
-  ylab("Custo") +
-  scale_color_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) + 
-  scale_fill_manual(values = c("#E4F00A", "white", "#22FF00","pink","orange")) 
-
-graf3_parm + theme_dark()  
-print(graf3_parm);
-#dev.off();
+graf2_parm <- ggplot(PARM, aes(x = noh * 8, y = mks))+
+  geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  xlab("Overtime(hours)") +
+  ylab("Markespan(days)") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(300,340,380,420)) +
+  scale_x_continuous(breaks = seq(0,1000, by = 200)) +
+  ggtitle("PARM");
 
 
- 
+graf3_parm <- ggplot(PARM, aes(x=noh*8, y=cst/1000))+
+  geom_point(size=2, aes(shape=Arquivo, color=Arquivo)) +
+  xlab("Overtime(hours)") +
+  ylab("Cost(1000$)") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 1.0, vjust=1, size = 12, face = "bold"),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(angle = 90, hjust = 0.8)
+  ) +
+  scale_y_continuous(breaks = c(210,230,250)) +
+  scale_x_continuous(breaks = seq(0,1000, by = 200)) +
+  ggtitle("PARM");
+
+grid.arrange(graf1_acad, graf2_acad, graf3_acad, graf1_parm, graf2_parm, graf3_parm, ncol=3, nrow=2);
